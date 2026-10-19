@@ -3,7 +3,7 @@ pipeline {
   environment {
     IMAGE_NAME = 'yodamalascoding/simple-app'
     REGISTRY_CREDENTIALS = 'dockerhub-credentials'
-    PATH = "C:\Users\Yoda\AppData\Local\Programs\DockerDesktop\resources\bin\docker"
+    PATH = "C:\\Users\\Yoda\\AppData\\Local\\Programs\\DockerDesktop\\resources\\bin;${env.PATH}"
   }
   stages {
     stage('Checkout') { steps { checkout scm } }
