@@ -18,18 +18,10 @@ pipeline {
       steps {
         withCredentials([usernamePassword(credentialsId: REGISTRY_CREDENTIALS,
             usernameVariable: 'DH_USER', passwordVariable: 'DH_PASS')]) {
-          bat 'echo %DH_PASS%| docker login -u %DH_USER% --password-stdin'
+          bat '<nul set /p="%DH_PASS%"| docker login -u %DH_USER% --password-stdin'
           bat "docker push %IMAGE_NAME%:%BUILD_NUMBER%"
           bat "docker tag %IMAGE_NAME%:%BUILD_NUMBER% %IMAGE_NAME%:latest"
           bat "docker push %IMAGE_NAME%:latest"
-        }
-      }
-    }
-
-    stage('Deploy App + Database') {
-      steps {
-        withEnv(["APP_IMAGE=${IMAGE_NAME}:${env.BUILD_NUMBER}"]) {
-          bat 'docker compose -p simpleapp up -d'
         }
       }
     }
